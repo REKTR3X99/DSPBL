@@ -9,6 +9,8 @@ int main()
     char data;
     long temp;
 
+//Base implementation done, now need to implement a GUI and a even triggered stack fill
+
 
     for(int i =0; i<10;i++)
       {
@@ -24,9 +26,13 @@ int main()
       */
       temp = *(char*)&data; //Quake's bit level hacking modified to convert char to its ASCII value
 
-      printf("%ld",temp); //debugging purpose
-       }
+      Push(temp);
+    }
 
+    Display();
+    Empty();
+    printf("\nStack Empty");
+    Display();
 
       return 0;
 }

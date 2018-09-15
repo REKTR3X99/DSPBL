@@ -23,6 +23,6 @@ long Pop(void);
 
 void Display(void);
 
-void Clean(void);
+void Empty(void);
 
 

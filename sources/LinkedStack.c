@@ -3,6 +3,7 @@
 
 static LS *Top= NULL;
 
+
 extern void Push(long Data)
 {
 
@@ -22,6 +23,7 @@ extern void Push(long Data)
 
 }
 
+
 extern long Pop()
 {
   long tempdata; //Storage variable for data to return
@@ -37,6 +39,7 @@ extern long Pop()
   return tempdata; //returning value
 }
 
+
 extern void Display(void)
 {
   LS *temp = Top; //Creating and assigning it the same meory address as top
@@ -44,20 +47,23 @@ extern void Display(void)
   //Traversing through the Linked Stack
   while(temp != NULL) //Till temp reaches the last node
     {
-      printf("%ld",temp->data); //print data
+      printf("\n%ld",temp->data); //print data
 
       temp = temp->Next; //moving temp
     }
 }
 
 
-//Need to implement
-extern void Clean(void)
+//Empties the list
+extern void Empty(void)
 {
-  LS *Cleaner = Top;
+  LS *Cleaner = Top; //assinging the top of stack
 
-  while(Cleaner!=NULL)
+  while(Top!=NULL)
     {
-
+      //Traversing and deleting the elements of the stakc one by one
+      Top = Top->Next;
+      free(Cleaner);
+      Cleaner = Top;
     }
 }
