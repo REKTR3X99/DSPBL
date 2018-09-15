@@ -3,17 +3,20 @@
 
 #endif // MAKESTUFF_H
 
-#include "processing.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+//Linked stack basic structure
 struct LinkedStack
 {
-  long data;
-  struct LinkedStack *Next;
+  long data; //variable to hold data
+  struct LinkedStack *Next;  //Holds the enext address
 };
 
-typedef struct LinkedStack LS;
+typedef struct LinkedStack LS; //typedef because I'm too lazy to type the whole name
 
+
+//defining the function prototypes for all the function in LinkedStack.c
 void Push(long);
 
 long Pop(void);

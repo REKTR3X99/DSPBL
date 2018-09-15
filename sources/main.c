@@ -2,8 +2,6 @@
 #include <stdlib.h>
 //#include <gtk/gtk.h>
 #include "headers/LinkedStack.h"
-#include <curses.h>
-#include <string.h>
 
 
 int main()
@@ -18,10 +16,16 @@ int main()
       printf("\nEnter data");
       scanf(" %c", &data);
 
-      temp = *(char*)&data; //using quake's bit level hacking to convert to ASCII
+      //Method of storing any character :
+      /*
+      convert the given character to ASCII
+      store the ASCII value
+      When required reconvert backs
+      */
+      temp = *(char*)&data; //Quake's bit level hacking modified to convert char to its ASCII value
 
-      printf("%ld",temp);
-        }
+      printf("%ld",temp); //debugging purpose
+       }
 
 
       return 0;
