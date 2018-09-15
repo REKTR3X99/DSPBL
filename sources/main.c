@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 //#include <gtk/gtk.h>
-#include "makestuff.h"
+#include "headers/LinkedStack.h"
 #include <curses.h>
 #include <string.h>
 

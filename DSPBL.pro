@@ -16,7 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.c \
-    makestuff.c
+    makestuff.c \
+    sources/main.c \
+    sources/LinkedStack.c
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -49,4 +51,8 @@ unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += gtk+-3.0
 
 HEADERS += \
-    makestuff.h
+    makestuff.h \
+    headers/LinkedStack.h
+
+DISTFILES += \
+    sources/MainLayout.glade
