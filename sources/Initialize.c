@@ -1,4 +1,7 @@
 #include "headers/Initialize.h"
+#include "headers/LinkedStack.h"
+
+
 #include <SDL2/SDL.h>
 
 static SDL_Window *window = NULL;
@@ -6,6 +9,7 @@ static SDL_Window *window = NULL;
 void CreateWindow(void)
 {
 
+      SDL_Renderer *Renderer;
 
        SDL_Init(SDL_INIT_EVERYTHING);//Initializing SDL
 
@@ -26,7 +30,11 @@ void CreateWindow(void)
             exit(-1);
         }
 
-        HandleEvents();
+        Renderer = SDL_CreateRenderer(window, -1, 0); //BackgroundRenderer
+        SDL_SetRenderDrawColor(Renderer, 255,255,0,100); //Set color for the renderer
+        SDL_RenderPresent(Renderer); //Rendering the color
+
+        HandleEvents(); //call handle events
 }
 
 void DestroyWindow(void)
@@ -38,21 +46,24 @@ SDL_Quit();
 }
 
 
+//Handle all the given events and keypresses
 void HandleEvents(void)
 {
   SDL_Event event;
 
-while(1)
+while(1) //while true, run till the end of the window life cycle
   {
-    while(SDL_PollEvent(&event) != 0)
+    while(SDL_PollEvent(&event) != 0) //polling the to get key presses
       {
-        if(SDL_KEYDOWN == event.type)
+        if(SDL_KEYDOWN == event.type) //Debugging purposes
           {
-            printf("%c",event.key.keysym.sym);
+            Push(event.key.keysym.sym);
           }
 
-        if(event.key.keysym.sym == SDLK_q)
+        //Quit if Ctrl + q is pressed
+        if(event.key.keysym.sym == SDLK_q && SDL_GetModState() & KMOD_CTRL)
           {
+
               DestroyWindow();
           }
 
