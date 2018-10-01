@@ -47,7 +47,7 @@ extern void Display(void)
   //Traversing through the Linked Stack
   while(temp != NULL) //Till temp reaches the last node
     {
-      printf("\n%ld",temp->data); //print data
+      printf("\n%c",temp->data); //print data
 
       temp = temp->Next; //moving temp
     }

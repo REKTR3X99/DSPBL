@@ -3,6 +3,14 @@ QT -= gui
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
+#gcc -rdynamic -o window main.c `pkg-config --cflags --libs gtk+-3.0`
+
+QMAKE_CXXFLAGS += -rdynamic
+QMAKE_CXXFLAGS += -Wall
+#QMAKE_CXXFLAGS += `pkg-config --cflags gtk+-3.0`
+#QMAKE_LFLAGS += `pkg-config --libs gtk+-3.0`
+
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -16,7 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     sources/main.c \
-    sources/LinkedStack.c
+    sources/LinkedStack.c \
+    sources/Initialize.c
+
+
+HEADERS += \
+    headers/LinkedStack.h \
+    headers/Initialize.h
+
+DISTFILES += \
+    sources/window_main.glade
+
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -25,14 +45,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 # Disable Qt core and Qt Graphical user interface (don't use Qt)
 QT	    -= core
-QT	    -= gui
+QT	    += gui
 
 # Name of the target (executable file)
 TARGET	    = gtk_test
 
 # This is a console application
 CONFIG	    += console
-CONFIG	    -= app_bundle
+CONFIG	    += app_bundle
 
 # This is an application
 TEMPLATE    = app
@@ -41,16 +61,9 @@ TEMPLATE    = app
 SOURCES	    +=
 
 # GTK+ library
-unix: CONFIG	+= link_pkgconfig
-unix: PKGCONFIG += gtk+-3.0
+CONFIG	+= link_pkgconfig
+PKGCONFIG += gtk+-3.0
 
-
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += gtk+-3.0
-
-HEADERS += \
-    makestuff.h \
-    headers/LinkedStack.h
-
-DISTFILES += \
-    sources/MainLayout.glade
+INCLUDEPATH += += `pkg-config --cflags gtk+-3.0`
+LIBS += `pkg-config --cflags gtk+-3.0`
+LIBS += -L/usr/local/lib -lSDL2

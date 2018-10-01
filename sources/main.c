@@ -1,38 +1,70 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include <gtk/gtk.h>
-#include "headers/LinkedStack.h"
+#include <SDL2/SDL.h>
+#include <pthread.h>
 
+
+#include "headers/LinkedStack.h"
+#include "headers/Initialize.h"
+
+static unsigned int quit = 0;
 
 int main()
 {
-    char data;
-    long temp;
+    pthread_t WindowThread;
+    //pthread_t EventThread;
+    int state;
+    SDL_Event Event;
 
-//Base implementation done, now need to implement a GUI and a even triggered stack fill
 
+    state = pthread_create(&WindowThread,NULL, CreateWindow, NULL);
+    //state = pthread_create(&EventThread,NULL, HandleEvents, NULL);
 
-    for(int i =0; i<10;i++)
+    SDL_WaitEvent(&Event);
+
+    while(quit != 1)
       {
+        if(SDL_Quit == Event.type)
+          {
+          quit = 1;
+          }
+      }
 
-      printf("\nEnter data");
-      scanf(" %c", &data);
+    if(state!=0)
+      {
+        printf("\nWindow cannot be created");
+        exit(-1);
+      }
 
-      //Method of storing any character :
-      /*
-      convert the given character to ASCII
-      store the ASCII value
-      When required reconvert backs
-      */
-      temp = *(char*)&data; //Quake's bit level hacking modified to convert char to its ASCII value
+    pthread_join(WindowThread, NULL);
 
-      Push(temp);
-    }
+   //for(int i =0; i<10;i++)
+   //  {
+   //
+   //  printf("\nEnter data");
+   //  scanf(" %c", &data);
+   //
+   //  //Method of storing any character :
+   //
+   //  /*convert the given character to ASCII
+   //  store the ASCII value
+   //  When required reconvert backs*/
+   //
+   //  temp = *(char*)&data; //Quake's bit level hacking modified to convert char to its ASCII value
+   //
+   //  Push(temp);
+   //}
 
-    Display();
-    Empty();
-    printf("\nStack Empty");
-    Display();
+   //Display();
+   //Empty();
+   //printf("\nStack Empty");
+   //Display();
+
+
+   //DestroyWindow();
+
 
       return 0;
 }
+
+
