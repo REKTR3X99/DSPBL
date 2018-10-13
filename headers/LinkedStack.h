@@ -9,7 +9,7 @@
 //Linked stack basic structure
 struct LinkedStack
 {
-  long data; //variable to hold data
+  char data; //variable to hold data
   struct LinkedStack *Next;  //Holds the enext address
 };
 
@@ -17,11 +17,11 @@ typedef struct LinkedStack LS; //typedef because I'm too lazy to type the whole 
 
 
 //defining the function prototypes for all the function in LinkedStack.c
-void Push(long);
+void Push(char, unsigned int);
 
-long Pop(void);
+char Pop(unsigned int);
 
-void Display(void);
+void Display(unsigned int);
 
 void Empty(void);
 

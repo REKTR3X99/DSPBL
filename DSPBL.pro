@@ -1,12 +1,10 @@
 QT -= gui
 
-CONFIG += c++11 console
+CONFIG += c++0x console
 CONFIG -= app_bundle
 
 #gcc -rdynamic -o window main.c `pkg-config --cflags --libs gtk+-3.0`
 
-QMAKE_CXXFLAGS += -rdynamic
-QMAKE_CXXFLAGS += -Wall
 #QMAKE_CXXFLAGS += `pkg-config --cflags gtk+-3.0`
 #QMAKE_LFLAGS += `pkg-config --libs gtk+-3.0`
 
@@ -23,9 +21,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    sources/main.c \
+    sources/Initialize.c \
     sources/LinkedStack.c \
-    sources/Initialize.c
+    sources/main.c
 
 
 HEADERS += \
@@ -64,6 +62,10 @@ SOURCES	    +=
 CONFIG	+= link_pkgconfig
 PKGCONFIG += gtk+-3.0
 
-INCLUDEPATH += += `pkg-config --cflags gtk+-3.0`
+INCLUDEPATH += `pkg-config --cflags gtk+-3.0`
 LIBS += `pkg-config --cflags gtk+-3.0`
-LIBS += -L/usr/local/lib -lSDL2
+LIBS += -L/usr/local/lib -lSDL2 -lSDL_ttf
+
+INCLUDEPATH += /path/to/ncurses/headers/
+LIBS += -L/path/to/ncurses/library/ -lncurses
+

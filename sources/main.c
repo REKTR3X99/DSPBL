@@ -2,69 +2,61 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <pthread.h>
-
+#include <ncurses.h>
 
 #include "headers/LinkedStack.h"
 #include "headers/Initialize.h"
 
-static unsigned int quit = 0;
+static WINDOW *MainFrame;
+
 
 int main()
 {
-    pthread_t WindowThread;
-    //pthread_t EventThread;
-    int state;
-    SDL_Event Event;
+  initscr();
+  cbreak();
+  noecho();
+
+  int xMax, yMax;
+  int c;
+  int x = 1;
+  int y = 0;
+
+    getmaxyx(stdscr, yMax, xMax);
+    MainFrame = newwin(50, xMax - 20, 10, 10);
+    box(MainFrame, 0, 0);
+    cbreak();
+    noecho();
+    keypad(stdscr, true);
+    keypad(MainFrame, true);
 
 
-    state = pthread_create(&WindowThread,NULL, CreateWindow, NULL);
-    //state = pthread_create(&EventThread,NULL, HandleEvents, NULL);
+   while(true)
+    {
 
-    SDL_WaitEvent(&Event);
+        c = wgetch(MainFrame);
+        mvwaddch(MainFrame, x, y++, (unsigned int)c);
 
-    while(quit != 1)
-      {
-        if(SDL_Quit == Event.type)
+        switch(c)
           {
-          quit = 1;
+            case KEY_F(1) :
+            goto display;
+            break;
+
+
+          default:
+          Push((char)c, 0);
+          break;
+
           }
-      }
 
-    if(state!=0)
-      {
-        printf("\nWindow cannot be created");
-        exit(-1);
-      }
+    }
 
-    pthread_join(WindowThread, NULL);
+   display :
+   refresh();
+   Display(0);
 
-   //for(int i =0; i<10;i++)
-   //  {
-   //
-   //  printf("\nEnter data");
-   //  scanf(" %c", &data);
-   //
-   //  //Method of storing any character :
-   //
-   //  /*convert the given character to ASCII
-   //  store the ASCII value
-   //  When required reconvert backs*/
-   //
-   //  temp = *(char*)&data; //Quake's bit level hacking modified to convert char to its ASCII value
-   //
-   //  Push(temp);
-   //}
-
-   //Display();
-   //Empty();
-   //printf("\nStack Empty");
-   //Display();
-
-
-   //DestroyWindow();
-
-
-      return 0;
+  getch();
+  endwin();
 }
 
 
