@@ -26,4 +26,5 @@ void Display(unsigned int);
 
 void Empty(void);
 
+void DisplayRedoBuffer(void);
 

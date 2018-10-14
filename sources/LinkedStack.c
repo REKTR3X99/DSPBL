@@ -6,6 +6,7 @@ static LS *RedoBufferTop = NULL;
 
 static LS *UndoBufferTop = NULL;
 
+static LS *DisplayBufferTop = NULL;
 
 //If State = 0 push into RedoBuffer and if State = 1 push into UndoBuffer
 
@@ -27,20 +28,26 @@ extern void Push(char Data, unsigned int State_Param)
   if(0 == State_Param)
   {
     TempPointer->Next = RedoBufferTop; //assigning the next element
-  }else
+  }else if(1 == State_Param)
   {
     TempPointer->Next = UndoBufferTop; //assigning the next element
-  }
+  }else if(2 == State_Param)
+    {
+      TempPointer->Next = DisplayBufferTop;
+    }
 
 
 
   if(0 == State_Param)
   {
     RedoBufferTop=TempPointer; //changing the Top pointer
-  }else
+  }else if(1 == State_Param)
   {
     UndoBufferTop = TempPointer; //changing the Top Pointer
-  }
+  }else if(2 == State_Param)
+  {
+     DisplayBufferTop = TempPointer;
+   }
 
 }
 
@@ -52,17 +59,23 @@ extern char Pop(unsigned int State_Param)
   if(0 == State_Param )
   {
      temp = RedoBufferTop; //Temp variable points to the same address as the top of the stack
-  }else
+  }else if(1 == State_Param)
   {
     temp = UndoBufferTop;
-  }
+  }else if(2 == State_Param)
+    {
+      temp = DisplayBufferTop;
+    }
 
   tempdata = temp->data; //extracting data
 
   if(0 == State_Param)
   RedoBufferTop = temp->Next; //changing position of the top pointer
-  else
+  else if(1 == State_Param)
     UndoBufferTop = temp->Next;
+  else if(2 == State_Param)
+    DisplayBufferTop = temp->Next;
+
 
   //free(temp); //freeing memory
 
@@ -88,12 +101,25 @@ extern void Display(unsigned int Param)
   //Traversing through the Linked Stack
   while(temp != NULL) //Till temp reaches the last node
     {
-      addch((unsigned int)temp->data);
+      if(Param == 0)
+        {
+          Push(temp->data, 2);
+        }else
+      {
+          addch((unsigned int)temp->data);
+       }
+
+
       temp = temp->Next; //moving  temp
     }
-  addch((unsigned int)"\n\n");
 
-  refresh();
+  if(Param == 0)
+    {
+      DisplayRedoBuffer();
+    }else
+    {
+  addch((unsigned int)"\n\n");
+    }
 
 }
 
@@ -110,4 +136,18 @@ extern void Empty(void)
       free(Cleaner);
       Cleaner = RedoBufferTop;
     }
+}
+
+extern void DisplayRedoBuffer(void)
+{
+
+  LS *temp = DisplayBufferTop;
+
+  clear();
+  while(temp != NULL) //Till temp reaches the last node
+    {
+      addch((unsigned int)temp->data);
+      temp = temp->Next; //moving  temp
+    }
+  refresh();
 }

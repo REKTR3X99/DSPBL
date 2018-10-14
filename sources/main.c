@@ -10,6 +10,8 @@ int main()
 {
 
   initscr();
+  clear();
+  refresh();
   cbreak();
   noecho();
 
@@ -32,15 +34,19 @@ int main()
    while(true)
     {
         c = wgetch(MainFrame);
-
+        clear();
         switch(c)
           {
             case KEY_F(1):
+            addch((unsigned int)"\n\n");
             l = Pop(0);
             Push(l, 1);
+            refresh();
             clear();
             Display(0);
             refresh();
+
+
             break;
 
           case KEY_F(2) :
