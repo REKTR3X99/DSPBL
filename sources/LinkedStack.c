@@ -1,5 +1,6 @@
 #include "headers/LinkedStack.h"
-
+#include "headers/Initialize.h"
+#include <ncurses.h>
 
 static LS *RedoBufferTop = NULL;
 
@@ -23,7 +24,14 @@ extern void Push(char Data, unsigned int State_Param)
     }
 
   TempPointer->data = Data; //assigning data
-  TempPointer->Next = RedoBufferTop; //assigning the next element
+  if(0 == State_Param)
+  {
+    TempPointer->Next = RedoBufferTop; //assigning the next element
+  }else
+  {
+    TempPointer->Next = UndoBufferTop; //assigning the next element
+  }
+
 
 
   if(0 == State_Param)
@@ -41,19 +49,22 @@ extern char Pop(unsigned int State_Param)
 {
   long tempdata; //Storage variable for data to return
   LS *temp = NULL;
-if(0 == State_Param )
+  if(0 == State_Param )
   {
      temp = RedoBufferTop; //Temp variable points to the same address as the top of the stack
-  }else if ( 1 == State_Param)
+  }else
   {
     temp = UndoBufferTop;
   }
 
   tempdata = temp->data; //extracting data
 
+  if(0 == State_Param)
   RedoBufferTop = temp->Next; //changing position of the top pointer
+  else
+    UndoBufferTop = temp->Next;
 
-  free(temp); //freeing memory
+  //free(temp); //freeing memory
 
   return (char)tempdata; //returning value
 }
@@ -62,21 +73,28 @@ if(0 == State_Param )
 extern void Display(unsigned int Param)
 {
   LS *temp;
+
   if(0 == Param)
     {
+
       temp = RedoBufferTop; //Creating and assigning it the same meory address as top
     }else
     {
+
       temp = UndoBufferTop;
     }
+
 
   //Traversing through the Linked Stack
   while(temp != NULL) //Till temp reaches the last node
     {
-      printf("\n%c",temp->data); //print data
-
-      temp = temp->Next; //moving temp
+      addch((unsigned int)temp->data);
+      temp = temp->Next; //moving  temp
     }
+  addch((unsigned int)"\n\n");
+
+  refresh();
+
 }
 
 

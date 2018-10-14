@@ -1,57 +1,79 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <pthread.h>
 #include <ncurses.h>
 
 #include "headers/LinkedStack.h"
 #include "headers/Initialize.h"
 
-static WINDOW *MainFrame;
-
 
 int main()
 {
+
   initscr();
   cbreak();
   noecho();
 
   int xMax, yMax;
+
+  getmaxyx(stdscr, yMax, xMax);
+  MainFrame = newwin(50, xMax - 20, 10, 10);
+
+  //box(MainFrame, 0, 0);
+  cbreak();
+  noecho();
+  keypad(stdscr, true);
+  keypad(MainFrame, true);
+
+
   int c;
   int x = 1;
   int y = 0;
-
-    getmaxyx(stdscr, yMax, xMax);
-    MainFrame = newwin(50, xMax - 20, 10, 10);
-    box(MainFrame, 0, 0);
-    cbreak();
-    noecho();
-    keypad(stdscr, true);
-    keypad(MainFrame, true);
-
-
+  char l = 0;
    while(true)
     {
-
         c = wgetch(MainFrame);
-        mvwaddch(MainFrame, x, y++, (unsigned int)c);
 
         switch(c)
           {
-            case KEY_F(1) :
-            goto display;
+            case KEY_F(1):
+            l = Pop(0);
+            Push(l, 1);
+            clear();
+            Display(0);
+            refresh();
             break;
 
+          case KEY_F(2) :
 
+           l = Pop(1);
+           Push(l, 0);
+           clear();
+           Display(0);
+           refresh();
+          break;
+
+          case KEY_BACKSPACE:
+            l = Pop(0);
+            Push(l, 1);
+            clear();
+            Display(0);
+            refresh();
+          break;
+
+          case KEY_F(3) :
+            main();
+          break;
+
+          case KEY_F(4) : Display(1);break;
           default:
           Push((char)c, 0);
+          mvwaddch(MainFrame, x, y++, (unsigned int)c);
           break;
 
           }
-
     }
 
-   display :
+
    refresh();
    Display(0);
 

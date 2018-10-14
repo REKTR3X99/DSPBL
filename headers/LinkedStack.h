@@ -16,6 +16,7 @@ struct LinkedStack
 typedef struct LinkedStack LS; //typedef because I'm too lazy to type the whole name
 
 
+
 //defining the function prototypes for all the function in LinkedStack.c
 void Push(char, unsigned int);
 

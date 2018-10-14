@@ -3,6 +3,10 @@
 
 #endif // INITIALIZE_H
 
+#include <ncurses.h>
+
+static WINDOW *MainFrame;
+
 
 void CreateWindow(void);
 
